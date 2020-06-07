@@ -2,8 +2,8 @@
 
 |name|pulls|version|layers|image size|
 |:---:|:---:|:---:|:---:|:---:|
-|[metowolf/php](https://hub.docker.com/r/metowolf/php)|![Pulls Count](https://img.shields.io/docker/pulls/metowolf/php.svg?style=flat-square)|![GitHub release (latest by date)](https://img.shields.io/github/v/tag/metowolf/docker-php?style=flat-square)|![Layers](https://shields.beevelop.com/docker/image/layers/metowolf/php/latest.svg?style=flat-square)|![image size](https://shields.beevelop.com/docker/image/image-size/metowolf/php/latest.svg?style=flat-square)|
-|[metowolf/nginx](https://hub.docker.com/r/metowolf/nginx)|![Pulls Count](https://img.shields.io/docker/pulls/metowolf/nginx.svg?style=flat-square)|![GitHub release (latest by date)](https://img.shields.io/github/v/tag/metowolf/docker-nginx?style=flat-square)|![](https://shields.beevelop.com/docker/image/layers/metowolf/nginx/latest.svg?style=flat-square)|![](https://shields.beevelop.com/docker/image/image-size/metowolf/nginx/latest.svg?style=flat-square)|
+|[idawnlight/php](https://hub.docker.com/r/idawnlight/php)|![Pulls Count](https://img.shields.io/docker/pulls/idawnlight/php.svg?style=flat-square)|![GitHub release (latest by date)](https://img.shields.io/github/v/tag/idawnlight/docker-php?style=flat-square)|![Layers](https://shields.beevelop.com/docker/image/layers/idawnlight/php/latest.svg?style=flat-square)|![image size](https://shields.beevelop.com/docker/image/image-size/idawnlight/php/latest.svg?style=flat-square)|
+|[idawnlight/nginx](https://hub.docker.com/r/idawnlight/nginx)|![Pulls Count](https://img.shields.io/docker/pulls/idawnlight/nginx.svg?style=flat-square)|![GitHub release (latest by date)](https://img.shields.io/github/v/tag/idawnlight/docker-nginx?style=flat-square)|![](https://shields.beevelop.com/docker/image/layers/idawnlight/nginx/latest.svg?style=flat-square)|![](https://shields.beevelop.com/docker/image/image-size/idawnlight/nginx/latest.svg?style=flat-square)|
 |[mysql/mysql-server](https://hub.docker.com/r/mysql/mysql-server)|![Pulls Count](https://img.shields.io/docker/pulls/mysql/mysql-server.svg?style=flat-square)||![](https://shields.beevelop.com/docker/image/layers/mysql/mysql-server/latest.svg?style=flat-square)|![](https://shields.beevelop.com/docker/image/image-size/mysql/mysql-server/latest.svg?style=flat-square)|
 |[library/redis](https://hub.docker.com/_/redis)|![Pulls Count](https://img.shields.io/docker/pulls/library/redis.svg?style=flat-square)||![](https://shields.beevelop.com/docker/image/layers/library/redis/alpine.svg?style=flat-square)|![](https://shields.beevelop.com/docker/image/image-size/library/redis/alpine.svg?style=flat-square)|
 |[phpmyadmin/phpmyadmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin)|![Pulls Count](https://img.shields.io/docker/pulls/phpmyadmin/phpmyadmin.svg?style=flat-square)||![](https://shields.beevelop.com/docker/image/layers/phpmyadmin/phpmyadmin/latest.svg?style=flat-square)|![](https://shields.beevelop.com/docker/image/image-size/phpmyadmin/phpmyadmin/latest.svg?style=flat-square)|
@@ -16,7 +16,7 @@ Install [Docker](https://get.docker.com/) and [Compose](https://docs.docker.com/
 
  1. Clone docker-lemp inside your project
 ```bash
-git clone https://github.com/metowolf/docker-lemp.git
+git clone https://github.com/idawnlight/docker-lemp.git
 ```
  2. Enter the docker-lemp folder and rename .env.example to .env.
 ```bash
@@ -40,10 +40,11 @@ The following configuration file can be used as a starting point to enable HTTP/
 http {
     server {
         # Enable QUIC, HTTP/3 and HTTP/2 on both IPv4 and IPv6.
+        # Note that quic feature has been remove by this fork.
         listen 443 ssl http2;
-        listen 443 quic;
+        # listen 443 quic;
         listen [::]:443 ssl http2;
-        listen [::]:443 quic;
+        # listen [::]:443 quic;
 
         ssl_certificate      cert.crt;
         ssl_certificate_key  cert.key;
@@ -52,7 +53,7 @@ http {
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
         # Add Alt-Svc header to negotiate HTTP/3.
-        add_header alt-svc 'h3-23=":443"; ma=86400';
+        # add_header alt-svc 'h3-23=":443"; ma=86400';
 
         # Enable specific TLS versions (TLSv1 and TLSv1.1 are not longer saft, TLSv1.3 is required for QUIC).
         ssl_protocols TLSv1.2 TLSv1.3;
@@ -117,3 +118,6 @@ mv etc/ssl etc/nginx
 ```bash
 docker-compose up -d --no-deps --build --remove-orphans
 ```
+# Acknowledgement
+
+Appreciate metowolf for this great work!
