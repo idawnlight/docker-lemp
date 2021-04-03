@@ -17,7 +17,7 @@ services:
     environment:
       ENABLE_CRONTAB: "true"
       TZ: ${TZ}
-    restart: on-failure
+    restart: always
 
 
   php-fpm:
@@ -29,7 +29,7 @@ services:
     environment:
       ENABLE_CRONTAB: "true"
       TZ: ${TZ}
-    restart: on-failure
+    restart: always
 
 
   mysql:
@@ -43,7 +43,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_ROOT_HOST: "%"
       TZ: ${TZ}
-    restart: on-failure
+    restart: always
 
 
   phpmyadmin:
@@ -55,7 +55,7 @@ services:
     environment:
       PMA_HOST: mysql
       TZ: ${TZ}
-    restart: on-failure
+    restart: always
 
 
   redis:
@@ -64,4 +64,4 @@ services:
       - ./data/redis/data:/data:rw
     environment:
       TZ: ${TZ}
-    restart: on-failure
+    restart: always

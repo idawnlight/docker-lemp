@@ -33,37 +33,6 @@ MYSQL_ROOT_PASSWORD=your_password
 docker-compose up -d
 ```
 
-### Running `QUIC`
-
-The following configuration file can be used as a starting point to enable HTTP/3 support:
-```nginx
-http {
-    server {
-        # Enable QUIC, HTTP/3 and HTTP/2 on both IPv4 and IPv6.
-        # Note that quic feature has been remove by this fork.
-        listen 443 ssl http2;
-        # listen 443 quic;
-        listen [::]:443 ssl http2;
-        # listen [::]:443 quic;
-
-        ssl_certificate      cert.crt;
-        ssl_certificate_key  cert.key;
-
-        # Add HSTS header
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
-
-        # Add Alt-Svc header to negotiate HTTP/3.
-        # add_header alt-svc 'h3-23=":443"; ma=86400';
-
-        # Enable specific TLS versions (TLSv1 and TLSv1.1 are not longer saft, TLSv1.3 is required for QUIC).
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_ciphers TLS-CHACHA20-POLY1305-SHA256:TLS-AES-256-GCM-SHA384:TLS-AES-128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256;
-        ssl_prefer_server_ciphers on;
-        ssl_early_data on;
-    }
-}
-```
-
 ## Running `brotli`
 
  1. Add the following lines into the configuration file of your sites to enable `brotli` feature:
@@ -85,39 +54,6 @@ vim .env
 docker-compose up -d --no-deps --build
 ```
 
-## Upgrade to `Caddyless` version
-
-### Before `git pull`
-
- 1. Rename conflicted file if exists:
-```bash
-mv etc/nginx/nginx.conf etc/nginx/nginx.conf.bak
-```
-
-### After `git pull`
-
- 1. Modify project’s .env file.
-```bash
-vim .env
-```
-
- 2. Move Nginx/MySQL/SSL configuration to new directory:
-```bash
-# move nginx configuration
-mv etc/nginx/config/* etc/nginx/conf.d/
-
-# move MySQL configuration
-rm -fr etc/mysql && mkdir etc/mysql && mkdir etc/mysql/my.cnf.d
-mv etc/database/data etc/mysql && mv etc/database/config/* etc/mysql/my.cnf.d
-
-# move SSL configuration
-mv etc/ssl etc/nginx
-```
-
- 3. Rebuild containers and remove the `Caddy` container:
-```bash
-docker-compose up -d --no-deps --build --remove-orphans
-```
 # Acknowledgement
 
 Appreciate metowolf for this great work!
